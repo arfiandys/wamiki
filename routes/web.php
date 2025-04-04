@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\DaftarTamu\TampilkanDaftarTamu;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -12,6 +13,7 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/daftarTamu', TampilkanDaftarTamu::class)->name('daftarTamu.index');
     Route::redirect('settings', 'settings/profile');
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
