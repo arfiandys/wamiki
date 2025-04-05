@@ -13,6 +13,9 @@ class CreateDaftarTamu extends Component
     public $nomor_hp = '';
     public $deskripsi = '';
 
+    public $toastMessage = null;
+    public $toastType = 'success'; // atau 'error'
+
     public function save()
     {
         $this->validate([
@@ -21,17 +24,25 @@ class CreateDaftarTamu extends Component
             'layanan' => 'required',
         ]);
 
-        $daftarTamu = new DaftarTamu();
-        $daftarTamu->nama = $this->nama;
-        $daftarTamu->instansi = $this->instansi;
-        $daftarTamu->layanan = $this->layanan;
-        $daftarTamu->nomor_hp = $this->nomor_hp;
-        $daftarTamu->deskripsi = $this->deskripsi;
-        $daftarTamu->save();
+        try {
+            $daftarTamu = new DaftarTamu();
+            $daftarTamu->nama = $this->nama;
+            $daftarTamu->instansi = $this->instansi;
+            $daftarTamu->layanan = $this->layanan;
+            $daftarTamu->nomor_hp = $this->nomor_hp;
+            $daftarTamu->deskripsi = $this->deskripsi;
+            $daftarTamu->save();
 
-        session()->flash('success','Daftar Tamu added successfully');
+            // session()->flash('success','Daftar Tamu added successfully');
 
-        $this->redirect('/daftarTamu');
+            $this->redirect('/daftarTamu');
+
+            $this->toastMessage = 'Data berhasil disimpan.';
+            $this->toastType = 'success';
+        } catch (\Exception $e) {
+            $this->toastMessage = 'Gagal menyimpan data.';
+            $this->toastType = 'error';
+        }
     }
 
     public function render()
